@@ -1,10 +1,104 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { frameStore } from '../../core/frameStore';
+import {
+  SWIPE_CONFIGS,
+  SWIPE_LEVELS,
+  setSwipeSensitivity,
+  swipeTuning,
+} from '../../features/hand/dynamic/swipeSensitivity';
+import type { SwipeSensitivity } from '../../features/hand/dynamic/swipeSensitivity';
 import { ActionBar, ControlsTable } from '../ActionBar';
-import { useBus } from '../hooks';
+import { useBus, useCameraRunning, useFrameLoop } from '../hooks';
+import { SwipeMeter } from './meter';
 import { SLIDE_ACTIONS } from './actions';
 import type { SlideAction } from './actions';
 import { SlideModel } from './model';
+
+/** Hand status and a swipe meter: says whether the hand is seen and how close each swipe came. */
+function SwipeHelper() {
+  const running = useCameraRunning();
+  const meter = useMemo(() => new SwipeMeter(), []);
+  const distBar = useRef<HTMLDivElement>(null);
+  const speedBar = useRef<HTMLDivElement>(null);
+  const [level, setLevel] = useState<SwipeSensitivity>(swipeTuning.level);
+  const [status, setStatus] = useState({ hand: '', dist: 0, speed: 0 });
+
+  // The bars move every frame, so they are written straight to the DOM: no React render per frame.
+  useFrameLoop((now) => {
+    const h = frameStore.getState().hands[0];
+    if (h && h.palmLen > 0) meter.push(now, h.palmX, h.palmLen);
+    else meter.clear();
+    const r = meter.read(now, SWIPE_CONFIGS[swipeTuning.level]);
+    if (distBar.current) distBar.current.style.width = `${Math.min(100, r.distance * 100)}%`;
+    if (speedBar.current) speedBar.current.style.width = `${Math.min(100, r.speed * 100)}%`;
+  });
+
+  // The words and the best-attempt numbers change a few times a second at most.
+  useEffect(() => {
+    const id = setInterval(() => {
+      const h = frameStore.getState().hands[0];
+      setStatus({
+        hand: h ? `${h.hand} hand seen` : '',
+        dist: Math.round(meter.peak.distance * 100),
+        speed: Math.round(meter.peak.speed * 100),
+      });
+    }, 250);
+    return () => clearInterval(id);
+  }, [meter]);
+
+  const bar = (label: string, ref: React.RefObject<HTMLDivElement | null>, id: string) => (
+    <div className="flex items-center gap-2 text-xs text-neutral-400">
+      <span className="w-20">{label}</span>
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-neutral-800">
+        <div ref={ref} data-testid={id} className="h-full w-0 rounded-full bg-emerald-400" />
+      </div>
+    </div>
+  );
+
+  return (
+    <div
+      className="space-y-2 rounded-xl border border-neutral-800 bg-neutral-900/50 p-3"
+      data-testid="swipe-helper"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+        <span
+          data-testid="swipe-hand"
+          className={status.hand ? 'text-emerald-300' : 'text-amber-300'}
+        >
+          {!running
+            ? 'Camera is off: use the buttons or keys'
+            : status.hand || 'No hand seen: show an open hand, about an arm’s length away'}
+        </span>
+        <label className="flex items-center gap-2 text-xs text-neutral-400">
+          Swipe sensitivity
+          <select
+            data-testid="swipe-sensitivity"
+            className="rounded bg-neutral-800 px-2 py-1 text-neutral-100"
+            value={level}
+            onChange={(e) => {
+              const v = e.target.value as SwipeSensitivity;
+              setSwipeSensitivity(v);
+              setLevel(v);
+            }}
+          >
+            {SWIPE_LEVELS.map((l) => (
+              <option key={l.id} value={l.id}>
+                {l.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      {bar('Sideways', distBar, 'swipe-bar-distance')}
+      {bar('Speed', speedBar, 'swipe-bar-speed')}
+      <p className="text-xs text-neutral-500" data-testid="swipe-peak">
+        Both bars must fill to swipe. Best recent attempt: sideways {status.dist}%, speed{' '}
+        {status.speed}%.
+      </p>
+    </div>
+  );
+}
 
 /** Slide Remote: swipe left for the next slide, swipe right for the previous one, thumbs up to like. */
 export default function SlideRemote() {
@@ -107,6 +201,7 @@ export default function SlideRemote() {
       <p className="h-4 text-xs text-neutral-500" role="status" data-testid="slide-toast">
         {toast}
       </p>
+      <SwipeHelper />
       <ActionBar actions={SLIDE_ACTIONS} handlers={handlers} />
       <ControlsTable actions={SLIDE_ACTIONS} />
     </div>

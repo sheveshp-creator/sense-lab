@@ -49,8 +49,14 @@ const OPPOSITE: Partial<Record<GestureId, GestureId>> = {
  * Four-direction swipe in the on-screen (mirrored) view: "swipeLeft" means the hand moved to the
  * left of the screen. Needs distance AND speed AND a dominant, straight direction, then a cooldown.
  */
-export function createSwipe(overrides: Partial<SwipeConfig> = {}): GestureDetector {
-  const cfg = { ...DEFAULT_SWIPE, ...overrides };
+export function createSwipe(
+  overrides: Partial<SwipeConfig> = {},
+  /** Optional live tuning, read every update (the sensitivity setting). Must return the same object until it changes. */
+  live?: () => Partial<SwipeConfig> | undefined,
+): GestureDetector {
+  const base = { ...DEFAULT_SWIPE, ...overrides };
+  let cfg = base;
+  let lastLive: Partial<SwipeConfig> | undefined;
   const states = new Map<number, HandState>();
 
   return {
@@ -59,6 +65,12 @@ export function createSwipe(overrides: Partial<SwipeConfig> = {}): GestureDetect
       let s = states.get(frame.handId);
       if (!s)
         states.set(frame.handId, (s = { lastFireT: -Infinity, lastId: null, startT: -Infinity }));
+      // Rebuilt only when the setting changes (the presets are constant objects), so no allocation per frame.
+      const tuned = live?.();
+      if (tuned !== lastLive) {
+        lastLive = tuned;
+        cfg = { ...base, ...tuned };
+      }
       const m = frame.motion;
       const now = frame.t;
       if (now - s.lastFireT < cfg.cooldownMs) return NONE;

@@ -18,6 +18,7 @@ const hand = (o: Partial<LiveHand> = {}): LiveHand => ({
   gesture: null,
   palmX: 0.6,
   palmY: 0.5,
+  palmLen: 0.18,
   pinch: null,
   ...o,
 });

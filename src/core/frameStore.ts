@@ -42,6 +42,8 @@ export interface LiveHand {
   /** Palm centre, in frame heights from the left of the screen (x runs 0..aspect) and from the top (y 0..1). */
   palmX: number;
   palmY: number;
+  /** Palm length in the same units: the ruler swipe distances are measured in. */
+  palmLen: number;
   /** Set while pinching: the pinch point in the same units. */
   pinch: { x: number; y: number; dragging: boolean } | null;
 }
@@ -148,13 +150,22 @@ export function publishFrame(src: {
   for (const v of src.hands.views) {
     let h = handPool.get(v.track.id);
     if (!h) {
-      h = { id: v.track.id, hand: 'Right', gesture: null, palmX: 0, palmY: 0, pinch: null };
+      h = {
+        id: v.track.id,
+        hand: 'Right',
+        gesture: null,
+        palmX: 0,
+        palmY: 0,
+        palmLen: 0,
+        pinch: null,
+      };
       handPool.set(v.track.id, h);
     }
     h.hand = v.track.handedness;
     h.gesture = v.gesture;
     h.palmX = v.frame.metrics.palmX;
     h.palmY = v.frame.metrics.palmY;
+    h.palmLen = v.frame.motion.palmLen;
     if (v.pinch) {
       if (!h.pinch) h.pinch = { x: 0, y: 0, dragging: false };
       h.pinch.x = v.pinch.x;

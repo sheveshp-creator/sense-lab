@@ -23,13 +23,14 @@ const imports = (file: string): string[] => {
 
 /**
  * What a demo may import from outside src/demos: the live frame store, the event bus, two plain-data modules
- * (blendshape names and the expression labels) and a chart component. No model, no worker, no pipeline.
+ * (blendshape names and the expression labels), the swipe-sensitivity settings and a chart component. No model, no worker, no pipeline.
  */
 const ALLOWED_PROJECT = new Set([
   'core/frameStore',
   'events/bus',
   'features/face/blendshapes',
   'features/face/expression',
+  'features/hand/dynamic/swipeSensitivity',
   'ui/components/MultiLineChart',
 ]);
 const ALLOWED_PACKAGES = new Set([

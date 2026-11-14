@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" width="940" height="560" role="img" aria-labelledby="t d">
+  <title id="t">How to swipe for Slide Remote</title>
+  <desc id="d">Left: a hand at arm's length sweeps fast and straight across the camera view, which counts. Right: a hand held close has a palm about a third of the frame wide, so two palms is most of the view and the swipe is usually missed.</desc>
+  <defs>
+    <symbol id="hand" viewBox="0 0 100 130">
+      <rect x="22" y="58" width="56" height="62" rx="16" fill="#f2c9a5" stroke="#8a5a3a" stroke-width="2.5"/>
+      <rect x="22" y="14" width="12" height="52" rx="6" fill="#f2c9a5" stroke="#8a5a3a" stroke-width="2.5"/>
+      <rect x="37" y="4" width="12" height="62" rx="6" fill="#f2c9a5" stroke="#8a5a3a" stroke-width="2.5"/>
+      <rect x="52" y="8" width="12" height="58" rx="6" fill="#f2c9a5" stroke="#8a5a3a" stroke-width="2.5"/>
+      <rect x="67" y="20" width="11" height="46" rx="5.5" fill="#f2c9a5" stroke="#8a5a3a" stroke-width="2.5"/>
+      <rect x="4" y="62" width="24" height="12" rx="6" transform="rotate(-35 16 68)" fill="#f2c9a5" stroke="#8a5a3a" stroke-width="2.5"/>
+    </symbol>
+    <marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="16" markerHeight="16" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrowR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="16" markerHeight="16" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#ef4444"/>
+    </marker>
+    <clipPath id="clipR"><rect x="500" y="86" width="400" height="300" rx="10"/></clipPath>
+  </defs>
+  <style>
+    text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #e5e7eb; }
+    .h { font-size: 22px; font-weight: 700; }
+    .s { font-size: 14px; fill: #9ca3af; }
+    .l { font-size: 15px; }
+    .ok { fill: #34d399; } .bad { fill: #f87171; } .y { fill: #fbbf24; }
+    .o { paint-order: stroke; stroke: #171717; stroke-width: 4px; stroke-linejoin: round; }
+  </style>
+  <rect width="940" height="560" fill="#0a0a0a"/>
+
+  <!-- LEFT: counts -->
+  <text x="40" y="44" class="h ok">&#10003; Counts as a swipe</text>
+  <text x="40" y="66" class="s">Hand at arm's length, one fast straight sweep</text>
+  <rect x="40" y="86" width="400" height="300" rx="10" fill="#171717" stroke="#404040" stroke-width="2"/>
+  <text x="52" y="108" class="s">what the camera sees (mirrored, like a selfie)</text>
+  <!-- palm = 0.56 * hand width (100) = 56 -->
+  <use href="#hand" x="300" y="200" width="100" height="130" opacity="0.35"/>
+  <use href="#hand" x="80" y="200" width="100" height="130"/>
+  <line x1="296" y1="262" x2="192" y2="262" stroke="#10b981" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <text x="244" y="244" text-anchor="middle" class="l ok o">fast, straight</text>
+  <text x="244" y="290" text-anchor="middle" class="s ok o">about 3.5 palms here</text>
+  <!-- palm bar (56) and the 2-palm minimum (112) measured from the start position -->
+  <line x1="322" y1="352" x2="378" y2="352" stroke="#fbbf24" stroke-width="4"/>
+  <text x="350" y="372" text-anchor="middle" class="s y">1 palm</text>
+  <text x="40" y="414" class="l">A palm is about 1/7 of the frame width here.</text>
+  <text x="40" y="438" class="l">Sweep 2+ palms (about 16 cm) in under 0.5 s.</text>
+  <text x="40" y="462" class="l ok">Toward screen-left = next slide.</text>
+  <text x="40" y="486" class="l ok">Toward screen-right = previous slide.</text>
+
+  <!-- RIGHT: missed -->
+  <text x="500" y="44" class="h bad">&#10007; Usually missed</text>
+  <text x="500" y="66" class="s">Hand held close to the camera</text>
+  <rect x="500" y="86" width="400" height="300" rx="10" fill="#171717" stroke="#404040" stroke-width="2"/>
+  <text x="512" y="108" class="s">what the camera sees (mirrored, like a selfie)</text>
+  <g clip-path="url(#clipR)">
+    <!-- hand width 210 -> palm 118, about 30% of the frame -->
+    <use href="#hand" x="640" y="130" width="210" height="273"/>
+  </g>
+  <line x1="800" y1="270" x2="720" y2="270" stroke="#ef4444" stroke-width="6" stroke-linecap="round" marker-end="url(#arrowR)"/>
+  <text x="585" y="276" text-anchor="middle" class="l bad">too short</text>
+  <line x1="686" y1="330" x2="804" y2="330" stroke="#fbbf24" stroke-width="4"/>
+  <text x="516" y="322" class="s y">1 palm =</text>
+  <text x="516" y="342" class="s y">about 1/3 of</text>
+  <text x="516" y="362" class="s y">the frame</text>
+  <text x="500" y="414" class="l">2 palms is most of the view, in half a second:</text>
+  <text x="500" y="438" class="l">an ordinary arm movement falls short.</text>
+  <text x="500" y="462" class="l bad">Also missed: slow, curved or wobbly motion,</text>
+  <text x="500" y="486" class="l bad">or swiping back straight away (wait 1 s).</text>
+
+  <text x="470" y="535" text-anchor="middle" class="s">Fix: move your hand back to about an arm's length, then sweep quickly across the view.</text>
+</svg>

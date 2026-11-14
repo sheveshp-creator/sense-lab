@@ -5,13 +5,15 @@
 **Real-time face and hand recognition that runs entirely in your browser.**
 No server. No upload. No photos saved.
 
+_Made by **Shevesh Pandey**_
+
 ![React](https://img.shields.io/badge/React-19-20232a?logo=react&logoColor=61dafb)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646cff?logo=vite&logoColor=white)
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-Tasks%20Vision-0f9d58)
 ![ONNX Runtime Web](https://img.shields.io/badge/ONNX%20Runtime-Web-005ced)
 ![Tailwind](https://img.shields.io/badge/Tailwind-38bdf8?logo=tailwindcss&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-433%20unit%20%2B%20Playwright%20e2e-brightgreen)
+![Tests](https://img.shields.io/badge/tests-445%20unit%20%2B%20Playwright%20e2e-brightgreen)
 ![Privacy](https://img.shields.io/badge/privacy-100%25%20on--device-success)
 
 [**Live demo**](#live-demo) · [Screenshots](#screenshots-and-demos) · [Gesture cheat sheet](#gesture-cheat-sheet) · [Architecture](#architecture-overview) · [Extend it](#extend-it-in-two-files) · [Run it](#quick-start)
@@ -37,7 +39,7 @@ Everything runs in a Web Worker in your browser, and the page never uploads a fr
 | **Fast on a laptop**        | 30 fps video loop, about 28 model results per second with face and hands on, measured on a Mac (numbers and caveats in [Performance](#performance-measured)). Inference never runs on the UI thread.                  |
 | **Adapts to slow devices**  | An automatic quality mode steps work down when a frame overruns its deadline, then probes back up.                                                                                                                    |
 | **Built to be extended**    | A new gesture is one file and one registry line. A new demo is one folder and one line. A test enforces that demos only use the event bus and the store.                                                              |
-| **Tested end to end**       | 433 unit tests plus Playwright runs in real Chrome (and Playwright's WebKit) against a fake camera playing real photos and a recorded clip.                                                                           |
+| **Tested end to end**       | 445 unit tests plus Playwright runs in real Chrome (and Playwright's WebKit) against a fake camera playing real photos and a recorded clip.                                                                           |
 
 ## What it does
 
@@ -585,7 +587,7 @@ a few landmark coordinates, head-pose angles), never images. If you plan commerc
 
 ## Tests
 
-- `npm test`: unit tests (433, in `tests/`). Fixtures are described in `tests/fixtures/README.md`.
+- `npm test`: unit tests (445, in `tests/`). Fixtures are described in `tests/fixtures/README.md`.
 - Playwright end-to-end tests in `tests/e2e/` run Chrome against a fake camera. Several need photos or videos you supply
   and skip themselves without them:
 
@@ -606,6 +608,12 @@ The `__senselab` test hook (used to simulate input and read model state) exists 
 
 - `node scripts/eval-identity.mjs` and `node scripts/eval-expressions.mjs` measure accuracy on folders of photos.
 - `node scripts/bundle-report.mjs` reports bundle sizes (after `ANALYZE=1 npm run build`).
+
+## Made by
+
+<div align="center">
+  <img src="docs/author-card.png" width="760" alt="Made by Shevesh Pandey" />
+</div>
 
 ## Credits and licenses
 

@@ -3,6 +3,7 @@ import { createCircle } from './circle';
 import { createPinch } from './pinch';
 import { createPoint } from './point';
 import { createSwipe } from './swipe';
+import { SWIPE_PRESETS, swipeTuning } from './swipeSensitivity';
 import { createWave } from './wave';
 
 /**
@@ -12,7 +13,7 @@ import { createWave } from './wave';
 export function createDynamicSet() {
   const pinch = createPinch();
   const detectors: GestureDetector[] = [
-    createSwipe(),
+    createSwipe({}, () => SWIPE_PRESETS[swipeTuning.level]),
     createWave(),
     createPoint(),
     pinch.detector,
