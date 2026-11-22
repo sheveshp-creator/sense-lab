@@ -13,7 +13,7 @@ _Made by **Shevesh Pandey**_
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-Tasks%20Vision-0f9d58)
 ![ONNX Runtime Web](https://img.shields.io/badge/ONNX%20Runtime-Web-005ced)
 ![Tailwind](https://img.shields.io/badge/Tailwind-38bdf8?logo=tailwindcss&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-445%20unit%20%2B%20Playwright%20e2e-brightgreen)
+![Tests](https://img.shields.io/badge/tests-448%20unit%20%2B%20Playwright%20e2e-brightgreen)
 ![Privacy](https://img.shields.io/badge/privacy-100%25%20on--device-success)
 
 [**Live demo**](#live-demo) · [Screenshots](#screenshots-and-demos) · [Gesture cheat sheet](#gesture-cheat-sheet) · [Architecture](#architecture-overview) · [Extend it](#extend-it-in-two-files) · [Run it](#quick-start)
@@ -39,7 +39,7 @@ Everything runs in a Web Worker in your browser, and the page never uploads a fr
 | **Fast on a laptop**        | 30 fps video loop, about 28 model results per second with face and hands on, measured on a Mac (numbers and caveats in [Performance](#performance-measured)). Inference never runs on the UI thread.                  |
 | **Adapts to slow devices**  | An automatic quality mode steps work down when a frame overruns its deadline, then probes back up.                                                                                                                    |
 | **Built to be extended**    | A new gesture is one file and one registry line. A new demo is one folder and one line. A test enforces that demos only use the event bus and the store.                                                              |
-| **Tested end to end**       | 445 unit tests plus Playwright runs in real Chrome (and Playwright's WebKit) against a fake camera playing real photos and a recorded clip.                                                                           |
+| **Tested end to end**       | 448 unit tests plus Playwright runs in real Chrome (and Playwright's WebKit) against a fake camera playing real photos and a recorded clip.                                                                           |
 
 ## What it does
 
@@ -379,6 +379,12 @@ GPU delegate, tracks a face and a hand, and ran at 26 results/s. That is WebKit,
 limits (the face-recognition model is 37.8 MB), background-tab rules or the real camera pipeline. **Nothing was run on a real
 iPhone or in Safari.** Please try it there and report what you see.
 
+**Found on an iPad:** with Chrome on iPadOS (which is WebKit underneath) both models failed with "Can't find variable:
+document". MediaPipe's loader tells a worker from a page by `typeof importScripts === 'function'`; WebKit leaves
+`importScripts` undefined in module workers, so the loader reached for `document`. The worker now defines an `importScripts`
+that throws the same `TypeError` Chrome's does (`src/core/worker/importScriptsShim.ts`), which sends the loader to `import()`.
+The failure was reproduced in Chrome by hiding `importScripts`, and fixed there; it has not been re-checked on the iPad itself.
+
 **Test notes for Safari / iOS:** use HTTPS (an ngrok tunnel works), tick the consent box, and watch the Stats panel: "Runs in",
 "Delegate" and "Quality" tell you which path you got. Check that the camera starts after the permission prompt, that a face box
 appears, that hands work, and that locking the phone and returning does not leave stale tracks. `?thread=main` and
@@ -587,7 +593,7 @@ a few landmark coordinates, head-pose angles), never images. If you plan commerc
 
 ## Tests
 
-- `npm test`: unit tests (445, in `tests/`). Fixtures are described in `tests/fixtures/README.md`.
+- `npm test`: unit tests (448, in `tests/`). Fixtures are described in `tests/fixtures/README.md`.
 - Playwright end-to-end tests in `tests/e2e/` run Chrome against a fake camera. Several need photos or videos you supply
   and skip themselves without them:
 
