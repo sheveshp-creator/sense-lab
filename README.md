@@ -13,7 +13,7 @@ _Made by **Shevesh Pandey**_
 ![MediaPipe](https://img.shields.io/badge/MediaPipe-Tasks%20Vision-0f9d58)
 ![ONNX Runtime Web](https://img.shields.io/badge/ONNX%20Runtime-Web-005ced)
 ![Tailwind](https://img.shields.io/badge/Tailwind-38bdf8?logo=tailwindcss&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-448%20unit%20%2B%20Playwright%20e2e-brightgreen)
+![Tests](https://img.shields.io/badge/tests-452%20unit%20%2B%20Playwright%20e2e-brightgreen)
 ![Privacy](https://img.shields.io/badge/privacy-100%25%20on--device-success)
 
 [**Live demo**](#live-demo) · [Screenshots](#screenshots-and-demos) · [Gesture cheat sheet](#gesture-cheat-sheet) · [Architecture](#architecture-overview) · [Extend it](#extend-it-in-two-files) · [Run it](#quick-start)
@@ -39,7 +39,7 @@ Everything runs in a Web Worker in your browser, and the page never uploads a fr
 | **Fast on a laptop**        | 30 fps video loop, about 28 model results per second with face and hands on, measured on a Mac (numbers and caveats in [Performance](#performance-measured)). Inference never runs on the UI thread.                  |
 | **Adapts to slow devices**  | An automatic quality mode steps work down when a frame overruns its deadline, then probes back up.                                                                                                                    |
 | **Built to be extended**    | A new gesture is one file and one registry line. A new demo is one folder and one line. A test enforces that demos only use the event bus and the store.                                                              |
-| **Tested end to end**       | 448 unit tests plus Playwright runs in real Chrome (and Playwright's WebKit) against a fake camera playing real photos and a recorded clip.                                                                           |
+| **Tested end to end**       | 452 unit tests plus Playwright runs in real Chrome (and Playwright's WebKit) against a fake camera playing real photos and a recorded clip.                                                                           |
 
 ## What it does
 
@@ -383,7 +383,12 @@ iPhone or in Safari.** Please try it there and report what you see.
 document". MediaPipe's loader tells a worker from a page by `typeof importScripts === 'function'`; WebKit leaves
 `importScripts` undefined in module workers, so the loader reached for `document`. The worker now defines an `importScripts`
 that throws the same `TypeError` Chrome's does (`src/core/worker/importScriptsShim.ts`), which sends the loader to `import()`.
-The failure was reproduced in Chrome by hiding `importScripts`, and fixed there; it has not been re-checked on the iPad itself.
+A second cause sat behind it: MediaPipe only uses an `OffscreenCanvas` if the user-agent has a `Version/17` Safari token,
+and Chrome and Firefox on iPhone and iPad have none, so it called `document.createElement("canvas")` inside the worker. The
+models are now given their own `OffscreenCanvas` (`taskCanvas()` in `src/features/mediapipeFileset.ts`); a browser with no
+WebGL 2 `OffscreenCanvas` starts on the main thread; and if the worker still fails for a browser reason, the pipeline switches
+to the main thread once, automatically. Both failures were reproduced in Chrome (hiding `importScripts`, and an iPad-Chrome
+user-agent in `tests/e2e/ios.spec.ts`) and fixed there. **Neither has been re-checked on a real iPad or iPhone.**
 
 **Test notes for Safari / iOS:** use HTTPS (an ngrok tunnel works), tick the consent box, and watch the Stats panel: "Runs in",
 "Delegate" and "Quality" tell you which path you got. Check that the camera starts after the permission prompt, that a face box
@@ -593,7 +598,7 @@ a few landmark coordinates, head-pose angles), never images. If you plan commerc
 
 ## Tests
 
-- `npm test`: unit tests (448, in `tests/`). Fixtures are described in `tests/fixtures/README.md`.
+- `npm test`: unit tests (452, in `tests/`). Fixtures are described in `tests/fixtures/README.md`.
 - Playwright end-to-end tests in `tests/e2e/` run Chrome against a fake camera. Several need photos or videos you supply
   and skip themselves without them:
 

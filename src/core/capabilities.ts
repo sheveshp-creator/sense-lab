@@ -11,6 +11,11 @@ export interface Capabilities {
   /** requestVideoFrameCallback: without it the frame loop uses requestAnimationFrame (works, may repeat a frame). */
   videoFrameCallback: boolean;
   webgl2: boolean;
+  /**
+   * A WebGL 2 context on an OffscreenCanvas. The worker path needs it: MediaPipe's GPU delegate draws on an
+   * OffscreenCanvas inside the worker. Without it the models run on the page instead.
+   */
+  offscreenWebgl2: boolean;
   /** WebGPU: only speeds up face recognition; everything works without it. */
   webgpu: boolean;
   serviceWorker: boolean;
@@ -34,6 +39,16 @@ function supportsModuleWorker(): boolean {
   return read;
 }
 
+function supportsOffscreenWebgl2(): boolean {
+  try {
+    return (
+      typeof OffscreenCanvas !== 'undefined' && !!new OffscreenCanvas(1, 1).getContext('webgl2')
+    );
+  } catch {
+    return false;
+  }
+}
+
 function supportsWebgl2(): boolean {
   try {
     return !!document.createElement('canvas').getContext('webgl2');
@@ -51,6 +66,7 @@ export function detectCapabilities(): Capabilities {
     createImageBitmap: typeof createImageBitmap === 'function',
     videoFrameCallback: 'requestVideoFrameCallback' in HTMLVideoElement.prototype,
     webgl2: supportsWebgl2(),
+    offscreenWebgl2: supportsOffscreenWebgl2(),
     webgpu: 'gpu' in navigator,
     serviceWorker: 'serviceWorker' in navigator,
   };
@@ -93,5 +109,17 @@ export function chooseThread(
 ): ThreadMode {
   const forced = new URLSearchParams(search).get('thread');
   if (forced === 'main' || forced === 'worker') return forced;
-  return caps.moduleWorker ? 'worker' : 'main';
+  return caps.moduleWorker && caps.offscreenWebgl2 ? 'worker' : 'main';
+}
+
+/**
+ * Did a model fail to load in the worker because of the worker environment itself (a missing browser API, as on
+ * iPhone and iPad browsers), rather than a download problem? Only then is it worth trying the main thread once:
+ * a missing file would fail there too.
+ */
+export function isWorkerEnvironmentError(message: string): boolean {
+  if (/404|failed to fetch|network|status/i.test(message)) return false;
+  return /document|canvas|offscreen|webgl|gl context|importScripts|not defined|can't find variable|is not a function|undefined/i.test(
+    message,
+  );
 }

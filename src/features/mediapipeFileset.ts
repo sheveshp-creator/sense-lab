@@ -27,3 +27,18 @@ export async function visionFileset(wasmBaseUrl: string): Promise<WasmFileset> {
   const fileset = await FilesetResolver.forVisionTasks(wasmBaseUrl, true);
   return { ...fileset, wasmLoaderPath: `${fileset.wasmLoaderPath}?task=${++loads}` };
 }
+
+/**
+ * A canvas for MediaPipe to bind its WebGL context to, when it runs inside a worker.
+ *
+ * Without one, MediaPipe decides for itself: it uses an OffscreenCanvas only if the user-agent passes its Safari
+ * check (Safari 17 or newer, read from a "Version/17" token). Chrome and Firefox on iPhone and iPad have no such
+ * token, so the check fails there, MediaPipe falls back to document.createElement("canvas"), and a worker has no
+ * document: "Can't find variable: document". Handing it a canvas skips that guess. One fresh canvas per model:
+ * a canvas whose WebGL context failed once cannot be reused for the CPU retry.
+ */
+export function taskCanvas(): { canvas?: OffscreenCanvas } {
+  return inWorker() && typeof OffscreenCanvas !== 'undefined'
+    ? { canvas: new OffscreenCanvas(1, 1) }
+    : {};
+}

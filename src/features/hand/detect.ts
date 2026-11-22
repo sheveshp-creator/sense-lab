@@ -1,5 +1,5 @@
 import { GestureRecognizer, HandLandmarker } from '@mediapipe/tasks-vision';
-import { visionFileset } from '../mediapipeFileset';
+import { taskCanvas, visionFileset } from '../mediapipeFileset';
 import {
   BUILTIN_LABELS,
   HAND_LANDMARK_COUNT,
@@ -54,6 +54,7 @@ export async function createHandDetector(
   const { task: landmarker, delegate } = await withDelegate((d) =>
     HandLandmarker.createFromOptions(fileset, {
       baseOptions: { modelAssetPath: handModelUrl, delegate: d },
+      ...taskCanvas(),
       ...common,
     }),
   );
@@ -100,6 +101,7 @@ export async function createGestureRecognizer(
   const { task: recognizer, delegate } = await withDelegate((d) =>
     GestureRecognizer.createFromOptions(fileset, {
       baseOptions: { modelAssetPath: gestureModelUrl, delegate: d },
+      ...taskCanvas(),
       ...common,
     }),
   );

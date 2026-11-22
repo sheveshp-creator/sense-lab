@@ -1,5 +1,5 @@
 import { FaceLandmarker } from '@mediapipe/tasks-vision';
-import { visionFileset } from '../mediapipeFileset';
+import { taskCanvas, visionFileset } from '../mediapipeFileset';
 import {
   BLENDSHAPE_OFFSET,
   FACE_STRIDE,
@@ -40,6 +40,7 @@ export async function createFaceDetector(
   const create = (delegate: 'GPU' | 'CPU') =>
     FaceLandmarker.createFromOptions(fileset, {
       baseOptions: { modelAssetPath: modelUrl, delegate },
+      ...taskCanvas(),
       runningMode: mode,
       numFaces: MAX_FACES,
       outputFaceBlendshapes: true,

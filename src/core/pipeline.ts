@@ -21,7 +21,7 @@ import { TASK_FACE, TASK_GESTURE, TASK_HAND, TASK_IDENTITY } from '../features/h
 import type { GestureEvent } from '../features/hand/types';
 import type { ModelName } from './worker/protocol';
 import type { ThreadMode } from './worker/transport';
-import { chooseThread } from './capabilities';
+import { chooseThread, isWorkerEnvironmentError } from './capabilities';
 import { FrameGrabber } from './camera/capture';
 import { prefetchSettled } from './prefetch';
 
@@ -118,6 +118,14 @@ export async function startPipeline(
         .map((m) => c.models[m].delegate)
         .filter((d) => d !== undefined);
       ui.setDelegate(loaded.length === 0 ? null : loaded.every((d) => d === 'GPU') ? 'GPU' : 'CPU');
+      // A browser quirk in the worker (not a download problem): give the main thread one try.
+      if (
+        mode === 'worker' &&
+        st.state === 'error' &&
+        (model === 'face' || model === 'hand') &&
+        isWorkerEnvironmentError(st.message ?? '')
+      )
+        fallBackToMain();
     };
     try {
       await c.init({
@@ -138,6 +146,31 @@ export async function startPipeline(
     return c;
   };
   let client: WorkerClient;
+  let fellBack = false;
+  /**
+   * The models could not start in the worker because of the browser (seen on iPhone and iPad). Start over on the
+   * main thread once, where MediaPipe has a document and its usual canvas. The old client is detached first so it
+   * cannot write its failures into the UI after we have moved on.
+   */
+  const fallBackToMain = () => {
+    if (fellBack || stopped) return;
+    fellBack = true;
+    console.warn('Models could not start in the worker; switching to the main thread.');
+    const old = client;
+    for (const m of ['face', 'hand', 'gesture', 'identity'] as const)
+      liveStore.getState().setModelLoad(m, { state: 'idle' });
+    void connect('main')
+      .then((c) => {
+        if (stopped) return c.terminate();
+        old.onModel = null;
+        old.terminate();
+        // The frame loop asks for each model it needs (state 'idle'), so the new client loads them.
+        client = c;
+      })
+      .catch(() => {
+        /* the main thread could not start either: the error banner from the worker stays */
+      });
+  };
   const mode = chooseThread();
   try {
     client = await connect(mode);
