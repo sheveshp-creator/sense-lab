@@ -57,11 +57,11 @@ export function ActionBar<Id extends string>({
           data-action={a.id}
           aria-keyshortcuts={a.key === ' ' ? 'Space' : a.key}
           title={a.gesture ? `Gesture: ${a.gesture}` : undefined}
-          className="group inline-flex items-center gap-2 rounded-lg bg-neutral-800 px-3 py-1.5 text-sm transition hover:bg-neutral-700 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-400"
+          className="btn inline-flex items-center gap-2"
           onClick={() => handlers[a.id]()}
         >
           {a.label}
-          <kbd className="rounded bg-neutral-950 px-1.5 py-0.5 font-mono text-[11px] text-neutral-400">
+          <kbd className="border border-line px-1 font-mono text-[11px] text-faint">
             {a.keyLabel}
           </kbd>
         </button>

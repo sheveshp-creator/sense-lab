@@ -5,8 +5,8 @@ import { EXPRESSIONS } from '../../features/face/expression';
 export function ExpressionPanel() {
   const snap = useFaceSnapshot();
   return (
-    <section aria-label="Expression" className="w-80 space-y-2 rounded-lg bg-neutral-900 p-4">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">Expression</h2>
+    <section aria-label="Expression" className="w-80 space-y-2 panel">
+      <h2 className="label">Expression</h2>
       {!snap ? (
         <p className="text-sm text-neutral-500">No face in view.</p>
       ) : (
@@ -39,7 +39,7 @@ export function ExpressionPanel() {
                     aria-valuenow={pct}
                   >
                     <div
-                      className={`h-2 rounded ${on ? 'bg-emerald-400' : 'bg-neutral-500'}`}
+                      className={`h-2 rounded ${on ? 'bg-accent' : 'bg-neutral-500'}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>

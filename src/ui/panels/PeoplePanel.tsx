@@ -68,8 +68,8 @@ export function PeoplePanel() {
   };
 
   return (
-    <section aria-label="People" className="w-80 space-y-3 rounded-lg bg-neutral-900 p-4">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">People</h2>
+    <section aria-label="People" className="w-80 space-y-3 panel">
+      <h2 className="label">People</h2>
       {people.length === 0 && <p className="text-sm text-neutral-500">Nobody registered yet.</p>}
       <ul className="space-y-1">
         {people.map((p) => (
@@ -77,7 +77,7 @@ export function PeoplePanel() {
             <span>
               {p.name} <span className="text-neutral-500">· {p.embeddings.length} frames</span>
               {p.modelId !== ACTIVE_IDENTITY_MODEL.id && (
-                <span className="text-amber-400"> · other model</span>
+                <span className="text-accent"> · other model</span>
               )}
             </span>
             <button
@@ -91,16 +91,10 @@ export function PeoplePanel() {
         ))}
       </ul>
       <div className="flex flex-wrap gap-2 text-sm">
-        <button
-          className="rounded bg-neutral-800 px-2 py-1 hover:bg-neutral-700"
-          onClick={() => void exportJson()}
-        >
+        <button className="btn !px-2 !py-1" onClick={() => void exportJson()}>
           Export JSON
         </button>
-        <button
-          className="rounded bg-neutral-800 px-2 py-1 hover:bg-neutral-700"
-          onClick={() => fileRef.current?.click()}
-        >
+        <button className="btn !px-2 !py-1" onClick={() => fileRef.current?.click()}>
           Import JSON
         </button>
         <input
@@ -116,7 +110,7 @@ export function PeoplePanel() {
           }}
         />
         <button
-          className="rounded bg-red-900 px-2 py-1 hover:bg-red-800"
+          className="btn !border-bad/60 !px-2 !py-1 text-bad"
           onClick={() => void deleteAll()}
         >
           Delete all data

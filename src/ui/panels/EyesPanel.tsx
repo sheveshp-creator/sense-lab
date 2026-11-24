@@ -26,8 +26,8 @@ export function EyesPanel() {
   const ang = g ? Math.atan2(g.y, g.x) : 0;
 
   return (
-    <section aria-label="Eyes" className="w-80 space-y-3 rounded-lg bg-neutral-900 p-4">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">Eyes</h2>
+    <section aria-label="Eyes" className="w-80 space-y-3 panel">
+      <h2 className="label">Eyes</h2>
       {!snap ? (
         <p className="text-sm text-neutral-500">No face in view.</p>
       ) : (
@@ -108,7 +108,7 @@ export function EyesPanel() {
       <div className="space-y-2 border-t border-neutral-800 pt-3">
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <button
-            className="rounded bg-neutral-800 px-2 py-1 hover:bg-neutral-700 disabled:opacity-40"
+            className="btn !px-2 !py-1 disabled:opacity-40"
             disabled={!snap}
             onClick={() => setCalibrating(true)}
           >

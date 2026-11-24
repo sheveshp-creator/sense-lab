@@ -23,10 +23,8 @@ export function GestureTimeline() {
   }, []);
 
   return (
-    <section aria-label="Gesture timeline" className="w-80 rounded-lg bg-neutral-900 p-4">
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        Gesture timeline
-      </h2>
+    <section aria-label="Gesture timeline" className="w-80 panel">
+      <h2 className="label">Gesture timeline</h2>
       {events.length === 0 && (
         <p className="text-sm text-neutral-500">Show a gesture to see events.</p>
       )}
@@ -43,8 +41,8 @@ export function GestureTimeline() {
                 e.kind === 'end'
                   ? 'text-neutral-500'
                   : e.kind === 'fire'
-                    ? 'text-amber-400'
-                    : 'text-emerald-400'
+                    ? 'text-accent'
+                    : 'text-ok'
               }
             >
               {e.kind === 'start' ? '▶' : e.kind === 'fire' ? '●' : '■'}

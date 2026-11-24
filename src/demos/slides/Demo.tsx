@@ -51,21 +51,18 @@ function SwipeHelper() {
     <div className="flex items-center gap-2 text-xs text-neutral-400">
       <span className="w-20">{label}</span>
       <div className="h-2 flex-1 overflow-hidden rounded-full bg-neutral-800">
-        <div ref={ref} data-testid={id} className="h-full w-0 rounded-full bg-emerald-400" />
+        <div ref={ref} data-testid={id} className="h-full w-0 rounded-full bg-accent" />
       </div>
     </div>
   );
 
   return (
     <div
-      className="space-y-2 rounded-xl border border-neutral-800 bg-neutral-900/50 p-3"
+      className="space-y-2 rounded-sm border border-neutral-800 bg-neutral-900/50 p-3"
       data-testid="swipe-helper"
     >
       <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-        <span
-          data-testid="swipe-hand"
-          className={status.hand ? 'text-emerald-300' : 'text-amber-300'}
-        >
+        <span data-testid="swipe-hand" className={status.hand ? 'text-ok' : 'text-accent'}>
           {!running
             ? 'Camera is off: use the buttons or keys'
             : status.hand || 'No hand seen: show an open hand, about an arm’s length away'}
@@ -148,7 +145,7 @@ export default function SlideRemote() {
 
   return (
     <div className="space-y-3">
-      <div className="relative h-72 overflow-hidden rounded-xl border border-neutral-800 bg-gradient-to-br from-neutral-900 to-neutral-950">
+      <div className="relative h-72 overflow-hidden rounded-sm border border-neutral-800 bg-surface">
         <AnimatePresence mode="wait" custom={model.direction} initial={false}>
           <motion.div
             key={model.index}
@@ -161,7 +158,7 @@ export default function SlideRemote() {
             data-testid="slide"
             aria-live="polite"
           >
-            <h3 className="text-3xl font-semibold tracking-tight" data-testid="slide-title">
+            <h3 className="font-serif text-4xl tracking-tight" data-testid="slide-title">
               {slide.title}
             </h3>
             <p className="max-w-md text-neutral-300">{slide.body}</p>
@@ -174,10 +171,10 @@ export default function SlideRemote() {
               initial={{ opacity: 1, y: 0, scale: 0.6 }}
               animate={{ opacity: 0, y: -60, scale: 1.4 }}
               transition={{ duration: 0.9 }}
-              className="pointer-events-none absolute bottom-6 right-8 text-4xl"
+              className="pointer-events-none absolute bottom-6 right-8 font-mono text-3xl text-accent"
               aria-hidden
             >
-              👍
+              +1
             </motion.div>
           )}
         </AnimatePresence>
@@ -185,7 +182,7 @@ export default function SlideRemote() {
           {model.slides.map((_, i) => (
             <span
               key={i}
-              className={`h-1.5 rounded-full transition-all ${i === model.index ? 'w-6 bg-emerald-400' : 'w-1.5 bg-neutral-600'}`}
+              className={`h-1.5 rounded-full transition-all ${i === model.index ? 'w-6 bg-accent' : 'w-1.5 bg-neutral-600'}`}
             />
           ))}
         </div>
@@ -195,7 +192,7 @@ export default function SlideRemote() {
           Slide {model.index + 1} of {model.slides.length}
         </span>
         <span data-testid="slide-likes">
-          👍 {model.likes[model.index]} on this slide · {model.totalLikes} in total
+          Likes: {model.likes[model.index]} on this slide · {model.totalLikes} in total
         </span>
       </div>
       <p className="h-4 text-xs text-neutral-500" role="status" data-testid="slide-toast">

@@ -72,7 +72,7 @@ export default function MoodMeter() {
 
   return (
     <div className="space-y-4">
-      <div className="viz-root rounded-xl p-4" style={{ background: 'var(--surface-1)' }}>
+      <div className="viz-root rounded-sm p-4" style={{ background: 'var(--surface-1)' }}>
         <MultiLineChart
           title="Expressions across all faces, average score"
           t={view.series.t}
@@ -98,13 +98,13 @@ export default function MoodMeter() {
           <strong className="capitalize" data-testid="room-mood">
             {view.room ?? 'no one in view'}
           </strong>
-          {view.paused && <span className="ml-2 text-amber-300">(paused)</span>}
+          {view.paused && <span className="ml-2 text-accent">(paused)</span>}
         </p>
         <ul className="flex flex-wrap gap-2 text-xs text-neutral-300" aria-label="Faces now">
           {view.faces.map((f) => (
             <li
               key={f.id}
-              className="rounded-full bg-neutral-800 px-2.5 py-1"
+              className="rounded-sm border border-line px-2 py-1"
               data-testid="mood-face"
             >
               Face {f.id}: <span className="capitalize">{f.expression}</span>

@@ -14,18 +14,57 @@
   --series-2: #d95926;
 }
 
-/* Look and feel: dark, quiet, system fonts only (no web-font request: nothing leaves the origin). */
+/*
+ * Design tokens. A quiet instrument-panel look: warm near-black, off-white ink, hairline rules and ONE accent
+ * (amber). Surfaces are flat: no gradients, glows, blur or drop shadows. Type is system fonts only (no web-font
+ * request: nothing leaves the origin): a serif for headings, a sans for the interface, a mono for numbers and labels.
+ */
+@theme {
+  --color-bg: #0f0f0e;
+  --color-surface: #161615;
+  --color-raised: #1d1d1b;
+  --color-line: #2b2b28;
+  --color-line-strong: #46463f;
+  --color-ink: #ebe9e3;
+  --color-mute: #a09e94;
+  --color-faint: #8a887e;
+  --color-accent: #e9a53b;
+  --color-ok: #8fb573;
+  --color-bad: #e0735f;
+  --color-neutral-50: #f6f5f2;
+  --color-neutral-100: #ebe9e3;
+  --color-neutral-200: #d8d6cf;
+  --color-neutral-300: #bdbbb2;
+  --color-neutral-400: #a09e94;
+  --color-neutral-500: #77756c;
+  --color-neutral-600: #55534c;
+  --color-neutral-700: #3b3a35;
+  --color-neutral-800: #2b2b28;
+  --color-neutral-900: #1d1d1b;
+  --color-neutral-950: #0f0f0e;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif:
+    ui-serif, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+}
+
 html {
   color-scheme: dark;
 }
 body {
-  background:
-    radial-gradient(1100px 520px at 50% -12%, rgba(52, 211, 153, 0.07), transparent), #0a0a0a;
-  background-attachment: fixed;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
+input[type='checkbox'],
+input[type='radio'],
+input[type='range'] {
+  accent-color: var(--color-accent);
+}
 ::selection {
-  background: rgba(52, 211, 153, 0.35);
+  background: rgba(233, 165, 59, 0.35);
 }
 button,
 input[type='range'],
@@ -36,8 +75,67 @@ button:disabled {
   cursor: not-allowed;
 }
 :focus-visible {
-  outline: 2px solid #34d399;
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+@layer components {
+  /* Small caps label: the one way section and field names are written everywhere. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  /* A bounded area of the studio: hairline border, no fill tricks. */
+  .panel {
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    padding: 1rem;
+    border-radius: 2px;
+  }
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .btn {
+    border: 1px solid var(--color-line-strong);
+    background: transparent;
+    color: var(--color-ink);
+    padding: 0.3125rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 2px;
+    transition: background-color 0.12s;
+  }
+  .btn:hover:not(:disabled) {
+    background: var(--color-raised);
+  }
+  .btn:active:not(:disabled) {
+    background: var(--color-line);
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #19130a;
+    font-weight: 600;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #f1b459;
+  }
+  .btn:disabled {
+    opacity: 0.45;
+  }
+  .link {
+    color: var(--color-mute);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-line-strong);
+  }
+  .link:hover {
+    color: var(--color-ink);
+  }
 }
 
 @keyframes fade-in {

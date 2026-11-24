@@ -72,30 +72,22 @@ export function StudioPage({ onLeave }: { onLeave: () => void }) {
   // changes size and place. On "How it works" it becomes a small floating preview.
   const videoClass =
     tab === 'how'
-      ? 'fixed bottom-4 left-4 z-30 w-44 overflow-hidden rounded-xl shadow-2xl ring-1 ring-neutral-700'
+      ? 'fixed bottom-4 left-4 z-30 w-44 overflow-hidden rounded-sm border border-line'
       : tab === 'playground'
         ? 'w-full shrink-0 md:w-[400px]'
         : 'min-w-[320px] flex-1';
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-40 border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur">
-        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-6 gap-y-2 px-6 py-3">
-          <div className="flex items-center gap-2.5">
-            <span
-              aria-hidden
-              className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-sky-500 text-sm font-bold text-neutral-950"
-            >
-              S
-            </span>
-            <span className="text-lg font-semibold tracking-tight">SenseLab</span>
-          </div>
-          <nav className="flex flex-wrap gap-1.5" aria-label="Pages">
+      <header className="sticky top-0 z-40 border-b border-line bg-bg">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-end gap-x-8 px-6">
+          <span className="pb-3 pt-3 font-serif text-xl tracking-tight">SenseLab</span>
+          <nav className="flex flex-wrap gap-x-6" aria-label="Pages">
             {TABS.map(([id, label]) => (
               <button
                 key={id}
                 aria-current={tab === id ? 'page' : undefined}
-                className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors duration-150 ${tab === id ? 'bg-neutral-100 text-neutral-950' : 'text-neutral-300 hover:bg-neutral-800'}`}
+                className={`-mb-px border-b-2 pb-3 pt-3 text-sm transition-colors ${tab === id ? 'border-accent text-ink' : 'border-transparent text-mute hover:text-ink'}`}
                 onClick={() => setTab(id)}
               >
                 {label}
@@ -103,7 +95,7 @@ export function StudioPage({ onLeave }: { onLeave: () => void }) {
             ))}
           </nav>
           <button
-            className="ml-auto rounded-full bg-neutral-800 px-3.5 py-1.5 text-sm transition hover:bg-neutral-700 active:scale-95"
+            className="btn mb-2 ml-auto"
             onClick={() => {
               stop();
               onLeave();
@@ -116,14 +108,17 @@ export function StudioPage({ onLeave }: { onLeave: () => void }) {
       <main className="mx-auto flex max-w-[1400px] flex-wrap gap-6 p-6">
         <div className={videoClass}>
           {modelError && (
-            <div role="alert" className="mb-3 rounded-lg bg-red-950 p-3 text-sm text-red-200">
+            <div
+              role="alert"
+              className="mb-3 border border-bad/50 bg-bad/10 p-3 text-sm text-neutral-100"
+            >
               <p className="font-medium">Could not start tracking.</p>
               <p className="mt-1 text-red-300">
                 The tracking engine did not start. Reload the page, or try again.
               </p>
               <p className="mt-1 break-words font-mono text-xs text-red-400/80">{modelError}</p>
               <button
-                className="mt-2 rounded bg-red-900 px-3 py-1 hover:bg-red-800"
+                className="btn mt-2"
                 onClick={() => {
                   setModelError(null);
                   setAttempt((a) => a + 1);

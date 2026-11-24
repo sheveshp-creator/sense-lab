@@ -6,9 +6,7 @@ function Group({ title, keys }: { title: string; keys: readonly (keyof LayerTogg
   const setLayer = useLive((s) => s.setLayer);
   return (
     <div>
-      <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-        {title}
-      </h3>
+      <h3 className="label">{title}</h3>
       <div className="grid grid-cols-2 gap-1">
         {keys.map((k) => (
           <label key={k} className="flex items-center gap-2 text-sm">
@@ -35,11 +33,9 @@ export function LayerPanel() {
   const models = useLive((s) => s.models);
   const setModel = useLive((s) => s.setModel);
   return (
-    <section aria-label="Layers" className="w-64 space-y-3 rounded-lg bg-neutral-900 p-4">
+    <section aria-label="Layers" className="w-64 space-y-3 panel">
       <div>
-        <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-neutral-400">
-          Models
-        </h2>
+        <h2 className="label">Models</h2>
         <div className="grid grid-cols-2 gap-1">
           {(Object.keys(MODEL_LABELS) as (keyof ModelToggles)[]).map((k) => (
             <label key={k} className="flex items-center gap-2 text-sm">

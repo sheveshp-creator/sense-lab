@@ -20,7 +20,7 @@ export function ModelBanner() {
       {failed.map((m) => {
         const f = friendlyModelError(m, load[m].message ?? '');
         return (
-          <div key={m} role="alert" className="rounded-lg bg-red-950 p-3 text-sm text-red-200">
+          <div key={m} role="alert" className="rounded-sm bg-red-950 p-3 text-sm text-red-200">
             <p className="font-medium">{f.title}</p>
             <p className="mt-1 text-red-300">{f.hint}</p>
             {load[m].message && (
@@ -38,7 +38,7 @@ export function ModelBanner() {
         );
       })}
       {runtimeError && (
-        <p role="alert" className="rounded-lg bg-red-950 p-3 text-sm text-red-200">
+        <p role="alert" className="rounded-sm bg-red-950 p-3 text-sm text-red-200">
           {friendlyRuntimeError(runtimeError)}
         </p>
       )}

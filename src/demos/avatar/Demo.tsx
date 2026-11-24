@@ -113,7 +113,7 @@ export default function MirrorAvatar() {
       <div className="relative">
         <svg
           viewBox="-100 -100 200 200"
-          className="aspect-[4/3] w-full rounded-xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950"
+          className="aspect-[4/3] w-full rounded-sm border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950"
           role="img"
           aria-label="Cartoon face copying your expression"
           data-testid="avatar"

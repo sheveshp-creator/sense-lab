@@ -117,7 +117,7 @@ export default function Object3D() {
     <div className="space-y-3">
       <div
         ref={mount}
-        className="relative aspect-[4/3] w-full rounded-xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950"
+        className="relative aspect-[4/3] w-full rounded-sm border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950"
         data-testid="object3d-view"
       >
         {failed && (
@@ -126,7 +126,7 @@ export default function Object3D() {
           </p>
         )}
         <div
-          className="pointer-events-none absolute left-3 top-3 rounded-full bg-neutral-950/80 px-3 py-1 text-xs text-neutral-300"
+          className="pointer-events-none absolute left-3 top-3 rounded-sm border border-line bg-bg/85 px-2 py-1 font-mono text-[11px] text-mute"
           data-testid="object3d-readout"
         >
           Zoom {read.scale.toFixed(2)}x · Rotation {(((read.rot % 360) + 360) % 360).toFixed(0)}° ·{' '}

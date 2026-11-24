@@ -50,7 +50,7 @@ export function CameraView({
   return (
     <div className="space-y-3">
       <div
-        className="relative w-full max-w-[640px] overflow-hidden rounded-lg bg-black"
+        className="relative w-full max-w-[640px] overflow-hidden rounded-sm bg-black"
         style={{ aspectRatio: aspect }}
       >
         <video
@@ -79,10 +79,7 @@ export function CameraView({
             <p role="alert" className="text-red-300">
               {CAMERA_ERROR_TEXT[errorKind]}
             </p>
-            <button
-              className="rounded bg-neutral-800 px-3 py-1.5 hover:bg-neutral-700"
-              onClick={onRetry}
-            >
+            <button className="btn" onClick={onRetry}>
               Retry
             </button>
           </div>
@@ -92,7 +89,7 @@ export function CameraView({
         <label className="flex items-center gap-2 text-sm text-neutral-300">
           Camera
           <select
-            className="rounded bg-neutral-800 px-2 py-1"
+            className="btn !px-2 !py-1"
             value={deviceId ?? ''}
             onChange={(e) => onSelectDevice(e.target.value)}
           >

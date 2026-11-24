@@ -64,9 +64,9 @@ const Rect = ({ b, tone = 'box' }: { b: Box; tone?: 'box' | 'accent' }) => (
       y={b.y}
       width={b.w}
       height={b.h}
-      rx={10}
+      rx={3}
       fill="var(--surface-2)"
-      stroke={tone === 'accent' ? 'var(--series-1)' : 'var(--grid)'}
+      stroke={tone === 'accent' ? 'var(--color-accent)' : 'var(--grid)'}
       strokeWidth={tone === 'accent' ? 1.5 : 1}
     />
     <text
@@ -115,7 +115,7 @@ export function ArchitectureDiagram() {
     <figure className="viz-root space-y-2">
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        className="w-full rounded-xl"
+        className="w-full rounded-sm"
         role="img"
         aria-labelledby="arch-title"
         aria-describedby="arch-desc"
@@ -142,14 +142,14 @@ export function ArchitectureDiagram() {
             <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--text-secondary)" />
           </marker>
         </defs>
-        <rect width={W} height={H} rx={14} fill="var(--surface-1)" />
+        <rect width={W} height={H} rx={3} fill="var(--surface-1)" />
         {/* The browser tab: nothing leaves it. */}
         <rect
           x={8}
           y={8}
           width={W - 16}
           height={H - 16}
-          rx={12}
+          rx={3}
           fill="none"
           stroke="var(--text-muted)"
           strokeDasharray="5 5"
@@ -176,9 +176,9 @@ export function ArchitectureDiagram() {
           y={52}
           width={236}
           height={344}
-          rx={12}
+          rx={3}
           fill="none"
-          stroke="var(--series-1)"
+          stroke="var(--color-accent)"
           strokeWidth={1.5}
         />
         <text x={380} y={74} fontSize={13} fontWeight={700} fill="var(--text-primary)">
@@ -205,7 +205,7 @@ export function ArchitectureDiagram() {
           y={52}
           width={230}
           height={380}
-          rx={12}
+          rx={3}
           fill="none"
           stroke="var(--grid)"
           strokeWidth={1.5}

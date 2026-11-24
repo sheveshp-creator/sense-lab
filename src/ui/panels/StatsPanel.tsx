@@ -34,8 +34,8 @@ export function StatsPanel() {
     ['Quality', `${QUALITY_LEVELS[level]!.label}${mode === 'auto' ? ' (auto)' : ' (pinned)'}`],
   ];
   return (
-    <section aria-label="Performance stats" className="w-64 rounded-lg bg-neutral-900 p-4">
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-400">Stats</h2>
+    <section aria-label="Performance stats" className="w-64 panel">
+      <h2 className="label">Stats</h2>
       <dl className="space-y-1 font-mono text-sm">
         {rows.map(([k, v]) => (
           <div key={k} className="flex justify-between">

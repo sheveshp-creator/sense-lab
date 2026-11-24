@@ -16,14 +16,18 @@ export default function PlaygroundPage() {
 
   return (
     <section aria-label="Playground" className="w-full min-w-0 space-y-4">
-      <div role="tablist" aria-label="Demos" className="flex flex-wrap gap-2">
+      <div
+        role="tablist"
+        aria-label="Demos"
+        className="flex flex-wrap gap-x-5 border-b border-line"
+      >
         {DEMOS.map((d) => (
           <button
             key={d.id}
             role="tab"
             aria-selected={d.id === id}
             data-testid={`demo-tab-${d.id}`}
-            className={`rounded-full px-3 py-1.5 text-sm transition ${d.id === id ? 'bg-neutral-100 text-black' : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'}`}
+            className={`-mb-px border-b-2 pb-2 text-sm transition-colors ${d.id === id ? 'border-accent text-ink' : 'border-transparent text-mute hover:text-ink'}`}
             onClick={() => setId(d.id)}
           >
             {d.title}

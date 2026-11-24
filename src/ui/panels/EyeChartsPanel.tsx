@@ -8,12 +8,10 @@ export function EyeChartsPanel() {
   return (
     <section
       aria-label="Eye charts"
-      className="viz-root w-80 space-y-4 rounded-lg p-4"
+      className="viz-root w-80 space-y-4 rounded-sm p-4"
       style={{ background: 'var(--surface-1)' }}
     >
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        Last 10 seconds
-      </h2>
+      <h2 className="label">Last 10 seconds</h2>
       {!snap ? (
         <p className="text-sm text-neutral-500">No face in view.</p>
       ) : (

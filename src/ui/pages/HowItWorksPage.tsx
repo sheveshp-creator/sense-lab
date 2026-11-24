@@ -4,7 +4,7 @@ import { LiveTimings } from '../components/LiveTimings';
 
 const Section = ({ id, title, children }: { id: string; title: string; children: ReactNode }) => (
   <section aria-labelledby={id} className="space-y-3">
-    <h2 id={id} className="text-xl font-semibold tracking-tight">
+    <h2 id={id} className="font-serif text-2xl tracking-tight">
       {title}
     </h2>
     {children}
@@ -12,9 +12,9 @@ const Section = ({ id, title, children }: { id: string; title: string; children:
 );
 
 const Card = ({ title, children }: { title: string; children: ReactNode }) => (
-  <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-4">
-    <h3 className="mb-1 text-sm font-semibold text-neutral-100">{title}</h3>
-    <div className="text-sm leading-relaxed text-neutral-400">{children}</div>
+  <div className="border-t border-line pt-3">
+    <h3 className="text-sm font-medium text-neutral-100">{title}</h3>
+    <div className="mt-1 text-sm leading-relaxed text-neutral-400">{children}</div>
   </div>
 );
 
@@ -31,7 +31,7 @@ export default function HowItWorksPage({ onBack }: { onBack?: () => void }) {
             Back
           </button>
         )}
-        <h1 className="text-3xl font-semibold tracking-tight">How it works</h1>
+        <h1 className="font-serif text-4xl tracking-tight">How it works</h1>
         <p className="max-w-2xl text-neutral-300">
           SenseLab finds faces and hands in your camera feed and reads what they are doing, all on
           your device. There is no server and no upload: the models are static files, and the page
@@ -89,7 +89,7 @@ export default function HowItWorksPage({ onBack }: { onBack?: () => void }) {
       </Section>
 
       <Section id="fast" title="Staying fast, loading light">
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
           <Card title="Automatic quality">
             If a processed frame takes longer than the time it is allowed (33 ms at full rate), the
             app steps down one level: first it drops the gesture cross-check and the heaviest
@@ -116,7 +116,7 @@ export default function HowItWorksPage({ onBack }: { onBack?: () => void }) {
       </Section>
 
       <Section id="privacy" title="Privacy">
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
           <Card title="Consent first">
             The camera starts only after you tick the box on the welcome page. Stopping it releases
             the camera.

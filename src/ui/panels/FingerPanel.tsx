@@ -14,7 +14,7 @@ interface HandRow {
   speed: number[];
 }
 
-const CHIP = ['bg-emerald-600', 'bg-amber-600', 'bg-red-600'];
+const CHIP = ['bg-accent/60', 'bg-accent', 'bg-red-600'];
 
 /** Polls the live hands 8x/second (never per frame) and shows each finger's state. */
 export function FingerPanel() {
@@ -39,10 +39,8 @@ export function FingerPanel() {
   }, []);
 
   return (
-    <section aria-label="Finger states" className="w-80 space-y-3 rounded-lg bg-neutral-900 p-4">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        Finger states
-      </h2>
+    <section aria-label="Finger states" className="w-80 space-y-3 panel">
+      <h2 className="label">Finger states</h2>
       {rows.length === 0 && <p className="text-sm text-neutral-500">No hand in view.</p>}
       {rows.map((r) => (
         <div key={r.id} data-testid={`hand-${r.id}`} className="space-y-1">
@@ -50,7 +48,7 @@ export function FingerPanel() {
             <span className="font-medium">
               Hand #{r.id} · {r.hand}
             </span>
-            <span data-testid="gesture-tag" className="font-mono text-sm text-emerald-300">
+            <span data-testid="gesture-tag" className="font-mono text-sm text-ok">
               {r.gesture ?? '-'}
             </span>
           </div>

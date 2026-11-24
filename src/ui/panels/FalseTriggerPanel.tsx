@@ -17,10 +17,8 @@ export function FalseTriggerPanel() {
   const breakdown = Object.entries(s.byGesture).sort((a, b) => b[1] - a[1]);
 
   return (
-    <section aria-label="False triggers" className="w-64 rounded-lg bg-neutral-900 p-4">
-      <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        False triggers
-      </h2>
+    <section aria-label="False triggers" className="w-64 panel">
+      <h2 className="label">False triggers</h2>
       <p className="mb-2 text-xs text-neutral-500">
         Press start, then talk and type for a minute without making a gesture.
       </p>

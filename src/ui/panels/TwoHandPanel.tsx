@@ -32,10 +32,8 @@ export function TwoHandPanel() {
     return () => clearInterval(id);
   }, []);
   return (
-    <section aria-label="Two hands" className="w-80 rounded-lg bg-neutral-900 p-4">
-      <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        Two hands
-      </h2>
+    <section aria-label="Two hands" className="w-80 panel">
+      <h2 className="label">Two hands</h2>
       {!s?.pair ? (
         <p className="text-sm text-neutral-500">
           Show both hands. Open palms to start zoom / rotate.

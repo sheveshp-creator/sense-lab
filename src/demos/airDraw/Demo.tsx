@@ -152,13 +152,13 @@ export default function AirDraw() {
           height={600}
           data-testid="air-draw-canvas"
           aria-label="Drawing area. Pinch, or use the mouse, or the arrow keys with Space, to draw."
-          className="aspect-[4/3] w-full touch-none cursor-crosshair rounded-xl border border-neutral-800 bg-neutral-900/60"
+          className="aspect-[4/3] w-full touch-none cursor-crosshair rounded-sm border border-neutral-800 bg-neutral-900/60"
           onPointerDown={onDown}
           onPointerMove={onMove}
           onPointerUp={onUp}
           onPointerCancel={onUp}
         />
-        <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 rounded-full bg-neutral-950/80 px-3 py-1 text-xs text-neutral-300">
+        <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 rounded-sm border border-line bg-bg/85 px-2 py-1 font-mono text-[11px] text-mute">
           <span
             className="inline-block h-3 w-3 rounded-full"
             style={{ background: color }}

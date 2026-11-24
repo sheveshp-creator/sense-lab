@@ -72,17 +72,14 @@ export function GazeCalibrationOverlay({ onClose }: { onClose: () => void }) {
           />
         </>
       ) : (
-        <div className="absolute left-1/2 top-1/2 w-80 -translate-x-1/2 -translate-y-1/2 space-y-3 rounded-lg bg-neutral-900 p-5 text-center">
+        <div className="absolute left-1/2 top-1/2 w-80 -translate-x-1/2 -translate-y-1/2 space-y-3 panel !p-5 text-center">
           <p className="font-semibold">{r?.ok ? 'Calibrated' : 'Calibration failed'}</p>
           <p className="text-sm text-neutral-300" data-testid="calibration-summary">
             {r?.ok
               ? `Average error ${(r.rmsError * 100).toFixed(0)}% of the screen on the dots, ${(r.leaveOneOutError * 100).toFixed(0)}% on dots left out of the fit (the honest number).`
               : `${r?.reason ?? 'No result'}. Make sure your face stays in view, and look at each dot.`}
           </p>
-          <button
-            className="rounded bg-emerald-500 px-3 py-1.5 text-sm font-medium text-black"
-            onClick={onClose}
-          >
+          <button className="btn btn-primary" onClick={onClose}>
             Close
           </button>
         </div>

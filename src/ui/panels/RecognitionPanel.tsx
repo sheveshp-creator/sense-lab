@@ -39,10 +39,8 @@ export function RecognitionPanel() {
   }, []);
 
   return (
-    <section aria-label="Recognition" className="w-80 space-y-3 rounded-lg bg-neutral-900 p-4">
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        Recognition
-      </h2>
+    <section aria-label="Recognition" className="w-80 space-y-3 panel">
+      <h2 className="label">Recognition</h2>
       <label className="block text-sm">
         Match threshold: <span data-testid="threshold-value">{threshold.toFixed(2)}</span>
         <input

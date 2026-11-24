@@ -39,15 +39,10 @@ export function RegisterPanel() {
   };
 
   return (
-    <section
-      aria-label="Register a person"
-      className="w-80 space-y-3 rounded-lg bg-neutral-900 p-4"
-    >
-      <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">
-        Register a person
-      </h2>
+    <section aria-label="Register a person" className="w-80 space-y-3 panel">
+      <h2 className="label">Register a person</h2>
       {status.state === 'missing' && (
-        <p role="alert" className="rounded bg-amber-950 p-2 text-xs text-amber-300">
+        <p role="alert" className="rounded bg-accent/10 p-2 text-xs text-accent">
           The face-recognition model is not installed. Run <code>./scripts/fetch-models.sh</code>,
           then reload. Faces and hands still work without it.
         </p>
@@ -58,7 +53,7 @@ export function RegisterPanel() {
         </p>
       )}
       {!faceOn && ready && (
-        <p className="text-xs text-amber-300">
+        <p className="text-xs text-accent">
           Turn on "Face model" and "Face recognition" in Live Studio first.
         </p>
       )}
@@ -80,7 +75,7 @@ export function RegisterPanel() {
             Skip the head-turn guidance (any clear front-facing frame counts)
           </label>
           <button
-            className="rounded bg-emerald-500 px-3 py-1.5 text-sm font-medium text-black disabled:opacity-40"
+            className="btn btn-primary"
             disabled={!ready || !name.trim() || !faceOn}
             onClick={start}
           >
@@ -95,7 +90,7 @@ export function RegisterPanel() {
                 key={s.id}
                 className={`rounded px-1.5 py-0.5 ${
                   progress.done || i < progress.step
-                    ? 'bg-emerald-700'
+                    ? 'bg-accent/60'
                     : i === progress.step
                       ? 'bg-neutral-100 text-black'
                       : 'bg-neutral-800'
@@ -115,22 +110,19 @@ export function RegisterPanel() {
           </p>
           <div className="flex gap-2 text-sm">
             {progress.done ? (
-              <button
-                className="rounded bg-emerald-500 px-3 py-1.5 font-medium text-black"
-                onClick={() => void save()}
-              >
+              <button className="btn btn-primary" onClick={() => void save()}>
                 Save {name.trim() || 'person'}
               </button>
             ) : (
               <button
-                className="rounded bg-neutral-800 px-2 py-1 hover:bg-neutral-700"
+                className="btn !px-2 !py-1"
                 onClick={() => identityService.skipRegistrationStep()}
               >
                 Skip this pose
               </button>
             )}
             <button
-              className="rounded bg-neutral-800 px-2 py-1 hover:bg-neutral-700"
+              className="btn !px-2 !py-1"
               onClick={() => identityService.cancelRegistration()}
             >
               Cancel
@@ -139,7 +131,7 @@ export function RegisterPanel() {
         </div>
       )}
       {saved && (
-        <p role="status" data-testid="reg-saved" className="text-sm text-emerald-300">
+        <p role="status" data-testid="reg-saved" className="text-sm text-ok">
           {saved}
         </p>
       )}

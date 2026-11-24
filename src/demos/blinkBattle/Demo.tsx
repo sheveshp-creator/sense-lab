@@ -104,7 +104,7 @@ export default function BlinkBattle() {
             key={i}
             data-testid={`player-${i + 1}`}
             data-lost={view.loser === i}
-            className={`rounded-xl border p-4 text-center transition ${view.loser === i ? 'border-red-500/60 bg-red-950/40' : p === 'over' && view.loser !== null ? 'border-emerald-500/50 bg-emerald-950/30' : 'border-neutral-800 bg-neutral-900'}`}
+            className={`rounded-sm border p-4 text-center transition ${view.loser === i ? 'border-red-500/60 bg-red-950/40' : p === 'over' && view.loser !== null ? 'border-emerald-500/50 bg-emerald-950/30' : 'border-neutral-800 bg-neutral-900'}`}
           >
             <p className="text-sm text-neutral-400">Player {i + 1}</p>
             <p className="text-4xl font-semibold tabular-nums" data-testid={`wins-${i + 1}`}>
@@ -120,7 +120,7 @@ export default function BlinkBattle() {
         role="status"
         data-testid="battle-banner"
         data-phase={p}
-        className={`rounded-xl px-4 py-5 text-center text-xl font-medium transition ${p === 'live' ? 'bg-amber-500/15 text-amber-300' : 'bg-neutral-900 text-neutral-100'}`}
+        className={`rounded-sm px-4 py-5 text-center text-xl font-medium transition ${p === 'live' ? 'bg-accent/15 text-accent' : 'bg-neutral-900 text-neutral-100'}`}
       >
         {banner}
       </p>
