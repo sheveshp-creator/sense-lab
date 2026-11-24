@@ -53,16 +53,16 @@ Everything runs in a Web Worker in your browser, and the page never uploads a fr
 
 ## Screenshots and demos
 
-|                                                                                                                     |                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| ![Slide Remote driven by a real swipe](docs/slide-remote.gif)                                                       | ![Mirror Avatar copying expressions](docs/mirror-avatar.gif)                                       |
-| **Slide Remote.** A hand photo slides across a fake camera; the real hand model reports a swipe, the slide changes. | **Mirror Avatar.** The cartoon copies smile, blinks, brows and head turn from the real face model. |
-| ![Air Draw](docs/screenshots/playground-air-draw.png)                                                               | ![3D Object](docs/screenshots/playground-3d.png)                                                   |
-| **Air Draw** (strokes made with simulated pinch input: there is no pinch photo to feed the camera).                 | **3D Object** at 1.6x and 40 degrees, from simulated two-hand input.                               |
-| ![Face Lab](docs/screenshots/face-lab.png)                                                                          | ![Hand Lab](docs/screenshots/hand-lab.png)                                                         |
-| **Face Lab:** expression meter, blinks, gaze arrow, charts, registration.                                           | **Hand Lab:** finger states and a gesture timeline.                                                |
-| ![Mood Meter](docs/screenshots/playground-mood.png)                                                                 | ![How it works](docs/screenshots/how-it-works.png)                                                 |
-| **Mood Meter:** a live chart of everyone's expressions.                                                             | **How it works:** diagram and live timings.                                                        |
+|                                                                                                                           |                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| ![Slide Remote changing slides](docs/slide-remote.gif)                                                                    | ![Mirror Avatar copying expressions](docs/mirror-avatar.gif)                                       |
+| **Slide Remote.** Next, previous and like, here driven with the keyboard. A swipe or thumbs up triggers the same actions. | **Mirror Avatar.** The cartoon copies smile, blinks, brows and head turn from the real face model. |
+| ![Air Draw](docs/screenshots/playground-air-draw.png)                                                                     | ![3D Object](docs/screenshots/playground-3d.png)                                                   |
+| **Air Draw** (strokes made with simulated pinch input: there is no pinch photo to feed the camera).                       | **3D Object** at 1.6x and 40 degrees, from simulated two-hand input.                               |
+| ![Face Lab](docs/screenshots/face-lab.png)                                                                                | ![Welcome](docs/screenshots/welcome.png)                                                           |
+| **Face Lab:** expression meter, blinks, gaze arrow, charts, registration.                                                 | **Welcome:** the consent page, before the camera starts.                                           |
+| ![Mood Meter](docs/screenshots/playground-mood.png)                                                                       | ![How it works](docs/screenshots/how-it-works.png)                                                 |
+| **Mood Meter:** a live chart of everyone's expressions.                                                                   | **How it works:** diagram and live timings.                                                        |
 
 <details>
 <summary><b>Try each demo (click to expand)</b></summary>
@@ -79,19 +79,19 @@ Everything runs in a Web Worker in your browser, and the page never uploads a fr
 </details>
 
 <details>
-<summary><b>Welcome and consent screen</b></summary>
+<summary><b>More: the Mirror Avatar page</b></summary>
 
-The camera never starts until you tick the consent box.
-
-![Welcome and consent](docs/screenshots/welcome.png)
+The cartoon follows the face model's blendshapes and head pose; the camera is on the left.
 
 ![Mirror Avatar](docs/screenshots/playground-avatar.png)
 
 </details>
 
-These images are made by `tests/e2e/docs.spec.ts` from a fake camera that shows a public-domain official portrait and
-MediaPipe's sample hand photo, so the whole thing is reproducible (`DOCS_DIR=docs FACE_FIXTURES=... npx playwright test docs`).
-The GIFs are cropped to the demo panels. A screenshot is not a measurement: see "How accurate is it" below.
+The Live Studio, Face Lab, Air Draw, 3D Object, Mood Meter and Avatar images are made by `tests/e2e/docsAuthor.spec.ts`
+(`DOCS_DIR=docs FACE_FIXTURES=/folder npx playwright test docsAuthor`, where the folder holds a `portrait.jpg`): a fake camera
+shows the author's own photo. Air Draw and 3D Object use simulated hand input, and the Slide Remote GIF is recorded with
+keyboard input. There is no Hand Lab screenshot yet: it needs a photo of an open hand. The GIFs are cropped to the demo
+panels. A screenshot is not a measurement: see "How accurate is it" below.
 
 ## Gesture cheat sheet
 
@@ -629,6 +629,6 @@ The `__senselab` test hook (used to simulate input and read model state) exists 
 ## Credits and licenses
 
 MediaPipe (Apache-2.0), onnxruntime-web (MIT), SFace from the OpenCV Zoo (Apache-2.0, see above before commercial use),
-Three.js, Framer Motion, React, Zustand, Tailwind CSS, Vite, Vitest, Playwright (all MIT), idb (ISC). The README images use
-the official White House portrait of a former US president (a US government work, public domain) and MediaPipe's sample
-hand photos. Photos used to measure accuracy (LFW, AffectNet, CK+) are not in this repository.
+Three.js, Framer Motion, React, Zustand, Tailwind CSS, Vite, Vitest, Playwright (all MIT), idb (ISC). The README screenshots use the author's own photo as the fake camera input. The test clip
+(`tests/fixtures/clip-face.mjpeg`) is made from the official portrait of a former US president (a US government work, public
+domain). Photos used to measure accuracy (LFW, AffectNet, CK+) are not in this repository.
